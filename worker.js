@@ -786,6 +786,12 @@ function generatepayPage(nama, nomor, nominal, origin) {
     .thank-you { color: #c82531; font-size: 2.2rem; font-style: italic; font-weight: 700; letter-spacing: -.05em; }
     .footer-detail { margin-top: 10px; font-size: .73rem; }
     .footer-brand { margin-top: 24px; font-size: .7rem; font-weight: 700; letter-spacing: .1em; }
+    .payment-methods { padding: 20px 34px 24px; border-top: 1px dashed rgba(36,33,30,.55); background: rgba(245,240,231,.8); text-align: center; }
+    .methods-title { color: #24211e; font-size: .72rem; font-weight: 700; letter-spacing: .09em; }
+    .methods-subtitle { margin-top: 6px; color: #756d64; font-size: .68rem; }
+    .methods-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+    .payment-logo { display: flex; min-height: 42px; align-items: center; justify-content: center; padding: 7px 5px; border: 1px solid rgba(36,33,30,.22); background: rgba(255,252,246,.48); }
+    .payment-logo img { display: block; width: 100%; height: 28px; object-fit: contain; }
 
     .receipt-container, .receipt-container button {
       font-family: 'DM Mono', 'Courier New', monospace;
@@ -820,7 +826,7 @@ function generatepayPage(nama, nomor, nominal, origin) {
     @media (max-width: 560px) {
       body { display: block; padding: 0; overflow-y: auto; }
       .receipt-container { width: 100%; margin: 0; border: 0; box-shadow: none; }
-      .receipt-header, .receipt-content, .receipt-total-section, .receipt-qr, .receipt-footer { padding-left: 22px; padding-right: 22px; }
+      .receipt-header, .receipt-content, .receipt-total-section, .receipt-qr, .receipt-footer, .payment-methods { padding-left: 22px; padding-right: 22px; }
       .receipt-header { padding-top: 26px; }
       .receipt-topline { font-size: 1.05rem; }
       .receipt-topline span:last-child { font-size: .82rem; }
@@ -830,6 +836,8 @@ function generatepayPage(nama, nomor, nominal, origin) {
       .tips-buttons { flex-wrap: nowrap; }
       .tip-btn { flex: 1; padding-left: 6px; padding-right: 6px; font-size: .7rem; }
       .thank-you { font-size: 2.5rem; }
+      .methods-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+      .payment-logo img { height: 30px; }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
@@ -878,6 +886,18 @@ function generatepayPage(nama, nomor, nominal, origin) {
       <div class="qr-label">SCAN QRIS UNTUK MEMBAYAR</div>
       <div class="qr-container" id="qrcode"></div>
     </div>
+
+    <section class="payment-methods" aria-label="Metode pembayaran yang didukung">
+      <div class="methods-title">SCAN MENGGUNAKAN BANK &amp; E-WALLET</div>
+      <div class="methods-subtitle">Gunakan aplikasi pembayaran yang kamu punya</div>
+      <div class="methods-grid">
+        <div class="payment-logo"><img src="https://companieslogo.com/img/orig/BBCA.JK_BIG-ebc1fcbe.png" alt="Logo BCA"></div>
+        <div class="payment-logo"><img src="https://companieslogo.com/img/orig/BBRI.JK_BIG-77d169b0.png" alt="Logo Bank BRI"></div>
+        <div class="payment-logo"><img src="https://companieslogo.com/img/orig/BMRI.JK-9759531a.png" alt="Logo Bank Mandiri"></div>
+        <div class="payment-logo"><img src="https://companieslogo.com/img/orig/ARTO.JK_BIG-2295dbe9.png" alt="Logo Bank Jago"></div>
+        <div class="payment-logo"><img src="https://companieslogo.com/img/orig/BDMN.JK-fab6521f.png" alt="Logo Bank Danamon"></div>
+      </div>
+    </section>
 
     <div class="receipt-footer">
       <div class="thank-you">Terima kasih</div>
