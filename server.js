@@ -786,6 +786,19 @@ function generatepayPage(nama, nomor, nominal, origin) {
     .thank-you { color: #c82531; font-size: 2.2rem; font-style: italic; font-weight: 700; letter-spacing: -.05em; }
     .footer-detail { margin-top: 10px; font-size: .73rem; }
     .footer-brand { margin-top: 24px; font-size: .7rem; font-weight: 700; letter-spacing: .1em; }
+    .payment-methods { padding: 20px 34px 24px; border-top: 1px dashed rgba(36,33,30,.55); background: rgba(245,240,231,.8); text-align: center; }
+    .methods-title { color: #24211e; font-size: .72rem; font-weight: 700; letter-spacing: .09em; }
+    .methods-subtitle { margin-top: 6px; color: #756d64; font-size: .68rem; }
+    .methods-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+    .payment-logo { display: flex; min-height: 40px; align-items: center; justify-content: center; gap: 6px; padding: 7px 5px; border: 1px solid rgba(36,33,30,.22); background: rgba(255,252,246,.48); color: #24211e; font-family: Arial, sans-serif; font-size: .64rem; font-weight: 700; letter-spacing: -.02em; }
+    .logo-symbol { display: inline-grid; min-width: 23px; height: 23px; place-items: center; border: 1px solid currentColor; border-radius: 4px; font-size: .58rem; }
+    .logo-bri { color: #17619b; }
+    .logo-mandiri { color: #075082; }
+    .logo-mandiri .logo-symbol { border-radius: 50%; }
+    .logo-bca { color: #1477ae; }
+    .logo-gopay { color: #168fc1; }
+    .logo-dana { color: #1684c2; }
+    .logo-jago { color: #e36b27; }
 
     .receipt-container, .receipt-container button {
       font-family: 'DM Mono', 'Courier New', monospace;
@@ -820,7 +833,7 @@ function generatepayPage(nama, nomor, nominal, origin) {
     @media (max-width: 560px) {
       body { display: block; padding: 0; overflow-y: auto; }
       .receipt-container { width: 100%; margin: 0; border: 0; box-shadow: none; }
-      .receipt-header, .receipt-content, .receipt-total-section, .receipt-qr, .receipt-footer { padding-left: 22px; padding-right: 22px; }
+      .receipt-header, .receipt-content, .receipt-total-section, .receipt-qr, .receipt-footer, .payment-methods { padding-left: 22px; padding-right: 22px; }
       .receipt-header { padding-top: 26px; }
       .receipt-topline { font-size: 1.05rem; }
       .receipt-topline span:last-child { font-size: .82rem; }
@@ -830,6 +843,8 @@ function generatepayPage(nama, nomor, nominal, origin) {
       .tips-buttons { flex-wrap: nowrap; }
       .tip-btn { flex: 1; padding-left: 6px; padding-right: 6px; font-size: .7rem; }
       .thank-you { font-size: 2.5rem; }
+      .methods-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+      .payment-logo { font-size: .6rem; }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
@@ -878,6 +893,19 @@ function generatepayPage(nama, nomor, nominal, origin) {
       <div class="qr-label">SCAN QRIS UNTUK MEMBAYAR</div>
       <div class="qr-container" id="qrcode"></div>
     </div>
+
+    <section class="payment-methods" aria-label="Metode pembayaran yang didukung">
+      <div class="methods-title">SCAN MENGGUNAKAN BANK &amp; E-WALLET</div>
+      <div class="methods-subtitle">Gunakan aplikasi pembayaran yang kamu punya</div>
+      <div class="methods-grid">
+        <div class="payment-logo logo-bri"><span class="logo-symbol">BRI</span><span>Bank BRI</span></div>
+        <div class="payment-logo logo-mandiri"><span class="logo-symbol">M</span><span>Mandiri</span></div>
+        <div class="payment-logo logo-bca"><span class="logo-symbol">BCA</span><span>BCA</span></div>
+        <div class="payment-logo logo-gopay"><span class="logo-symbol">G</span><span>GoPay</span></div>
+        <div class="payment-logo logo-dana"><span class="logo-symbol">D</span><span>DANA</span></div>
+        <div class="payment-logo logo-jago"><span class="logo-symbol">J</span><span>Jago</span></div>
+      </div>
+    </section>
 
     <div class="receipt-footer">
       <div class="thank-you">Terima kasih</div>
