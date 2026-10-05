@@ -10,6 +10,3 @@ enabled = true
 type = "CompiledWasm"
 globs = ["**/*.wasm"]
 fallthrough = true
-
-[alias]
-harfbuzzjs = "./harfbuzz-worker.js"

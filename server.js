@@ -971,7 +971,8 @@ function generatepayPage(nama, nomor, nominal, origin) {
 }
 
 import http from "node:http";
-import { renderReceiptPng, invoiceNumber } from "./og.js";
+import { renderReceiptPng } from "./og-node.js";
+import { invoiceNumber } from "./og-shared.js";
 
 const port = Number(process.env.PORT) || 8787;
 const host = process.env.HOST || "0.0.0.0";

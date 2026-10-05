@@ -970,16 +970,8 @@ function generatepayPage(nama, nomor, nominal, origin) {
 `;
 }
 
-// harfbuzzjs (via satori) reads `self.location.href` to resolve its wasm asset.
-// Workers has no `self.location`, so provide a harmless stub before importing.
-if (typeof globalThis.self === "undefined") {
-  globalThis.self = globalThis;
-}
-if (!globalThis.self.location) {
-  globalThis.self.location = { href: "https://worker.local/" };
-}
-
-import { renderReceiptPng, invoiceNumber } from "./og.js";
+import { renderReceiptPng } from "./og-worker.js";
+import { invoiceNumber } from "./og-shared.js";
 
 function htmlResponse(body, status = 200) {
   return new Response(body, {
