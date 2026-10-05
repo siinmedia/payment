@@ -836,8 +836,9 @@ function generatepayPage(nama, nomor, nominal, origin) {
       .tips-buttons { flex-wrap: nowrap; }
       .tip-btn { flex: 1; padding-left: 6px; padding-right: 6px; font-size: .7rem; }
       .thank-you { font-size: 2.5rem; }
-      .methods-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
-      .payment-logo img { height: 30px; }
+      .methods-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+      .payment-logo { min-height: 34px; padding: 4px 2px; }
+      .payment-logo img { height: 22px; }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
