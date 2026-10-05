@@ -1,6 +1,15 @@
 name = "payment"
 main = "worker.js"
 compatibility_date = "2026-01-01"
+compatibility_flags = ["nodejs_compat"]
 
 [observability]
 enabled = true
+
+[[rules]]
+type = "CompiledWasm"
+globs = ["**/*.wasm"]
+fallthrough = true
+
+[alias]
+harfbuzzjs = "./harfbuzz-worker.js"

@@ -392,17 +392,32 @@ const htmlAdmin = `
 `;
 
 function censorPhone(phone) {
-  return phone.slice(0, 3) + '****' + phone.slice(-2);
+  const raw = String(phone || "");
+  if (raw.length <= 5) return raw;
+  return raw.slice(0, 3) + '****' + raw.slice(-2);
 }
 
-function generatepayPage(nama, nomor, nominal) {
+function rupiah(value) {
+  const number = Number(String(value).replace(/[^0-9]/g, '')) || 0;
+  return 'Rp' + number.toLocaleString('id-ID');
+}
+
+function generatepayPage(nama, nomor, nominal, origin) {
+  const total = rupiah(nominal);
+  const invoiceNo = invoiceNumber(`${nama}|${nomor}|${nominal}`);
+  const pageTitle = `Invoice Penagihan atas nama ${nama} · SIINMedia`;
+  const pageDescription = `Invoice layanan SIINMedia untuk ${nama}. Total tagihan ${total}. Scan QRIS untuk membayar.`;
+  const encoded = Buffer.from(JSON.stringify({ nama, nomor, nominal })).toString("base64");
+  const ogImage = `${origin}/og/${encoded}.png`;
+  const shareUrl = `${origin}/pay/${encoded}`;
+
   return `
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Invoice Pembayaran · SIINMedia</title>
+  <title>${pageTitle}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -410,19 +425,23 @@ function generatepayPage(nama, nomor, nominal) {
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
   <!-- Open Graph untuk Facebook, WhatsApp, LinkedIn -->
-  <meta property="og:title" content="Bayar Praktis Pakai QRIS">
-  <meta property="og:description" content="Transaksi cepat, aman, dan praktis hanya dengan scan QRIS. Cocok buat bisnis dan kebutuhan harianmu.">
-  <meta property="og:image" content="https://siin.lol/payment.png">
+  <meta property="og:title" content="${pageTitle}">
+  <meta property="og:description" content="${pageDescription}">
+  <meta property="og:image" content="${ogImage}">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Invoice ${nama} - ${total}">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="${shareUrl}">
+  <meta property="og:site_name" content="SIINMedia">
+  <meta property="og:locale" content="id_ID">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Bayar Praktis Pakai QRIS">
-  <meta name="twitter:description" content="Transaksi cepat, aman, dan praktis hanya dengan scan QRIS. Cocok buat bisnis dan kebutuhan harianmu.">
-  <meta name="twitter:image" content="https://siin.lol/payment.png">
+  <meta name="twitter:title" content="${pageTitle}">
+  <meta name="twitter:description" content="${pageDescription}">
+  <meta name="twitter:image" content="${ogImage}">
 
   <style>
     :root {
@@ -818,7 +837,7 @@ function generatepayPage(nama, nomor, nominal) {
 <body>
   <div class="receipt-container">
     <div class="receipt-header">
-      <div class="receipt-topline"><span>INVOICE</span><span>NO. ${Math.floor(Math.random() * 900000) + 100000}</span></div>
+      <div class="receipt-topline"><span>INVOICE</span><span>NO. ${invoiceNo}</span></div>
       <div class="brand-mark">SIINMedia</div>
       <div class="brand-subtitle">SOFTWARE</div>
       <div class="receipt-tagline">/ INVOICE LAYANAN SIINMEDIA /</div>
@@ -951,6 +970,17 @@ function generatepayPage(nama, nomor, nominal) {
 `;
 }
 
+// harfbuzzjs (via satori) reads `self.location.href` to resolve its wasm asset.
+// Workers has no `self.location`, so provide a harmless stub before importing.
+if (typeof globalThis.self === "undefined") {
+  globalThis.self = globalThis;
+}
+if (!globalThis.self.location) {
+  globalThis.self.location = { href: "https://worker.local/" };
+}
+
+import { renderReceiptPng, invoiceNumber } from "./og.js";
+
 function htmlResponse(body, status = 200) {
   return new Response(body, {
     status,
@@ -961,29 +991,73 @@ function htmlResponse(body, status = 200) {
   });
 }
 
+function pngResponse(bytes) {
+  return new Response(bytes, {
+    headers: {
+      "content-type": "image/png",
+      "cache-control": "public, max-age=31536000, immutable"
+    }
+  });
+}
+
 function base64ToUtf8(base64) {
   const binary = atob(base64);
   const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
   return new TextDecoder().decode(bytes);
 }
 
+function decodePayload(base64) {
+  const data = JSON.parse(base64ToUtf8(base64));
+  if (!data?.nama || !data?.nomor || !data?.nominal) {
+    throw new Error("invalid payload");
+  }
+  return { nama: data.nama, nomor: data.nomor, nominal: data.nominal };
+}
+
 export default {
   async fetch(request) {
     const url = new URL(request.url);
-    const { pathname } = url;
+    const { pathname, origin } = url;
 
     if (pathname === "/" || pathname === "/admin") {
       return htmlResponse(htmlAdmin);
     }
 
+    if (pathname.startsWith("/og/")) {
+      const base64 = pathname.slice("/og/".length).replace(/\.png$/, "");
+      let payload;
+      try {
+        payload = decodePayload(base64);
+      } catch (error) {
+        return new Response("Data tidak valid", {
+          status: 400,
+          headers: { "content-type": "text/plain; charset=UTF-8" }
+        });
+      }
+
+      try {
+        const png = await renderReceiptPng({
+          nama: payload.nama,
+          nomor: payload.nomor,
+          nominal: payload.nominal,
+          invoiceNo: invoiceNumber(`${payload.nama}|${payload.nomor}|${payload.nominal}`)
+        });
+        return pngResponse(png);
+      } catch (error) {
+        return new Response(`Gagal membuat gambar: ${error?.stack || error?.message || String(error)}`, {
+          status: 500,
+          headers: { "content-type": "text/plain; charset=UTF-8" }
+        });
+      }
+    }
+
     if (pathname.startsWith("/pay/")) {
       const base64 = pathname.slice("/pay/".length);
       try {
-        const { nama, nomor, nominal } = JSON.parse(base64ToUtf8(base64));
-        if (!nama || !nomor || !nominal) {
-          return htmlResponse("Data tidak valid", 400);
-        }
-        return htmlResponse(generatepayPage(nama, nomor, nominal));
+        const payload = decodePayload(base64);
+        return htmlResponse(
+          generatepayPage(payload.nama, payload.nomor, payload.nominal, origin)
+        );
       } catch (error) {
         return htmlResponse("Data tidak valid atau terjadi kesalahan", 400);
       }
