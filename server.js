@@ -789,16 +789,9 @@ function generatepayPage(nama, nomor, nominal, origin) {
     .payment-methods { padding: 20px 34px 24px; border-top: 1px dashed rgba(36,33,30,.55); background: rgba(245,240,231,.8); text-align: center; }
     .methods-title { color: #24211e; font-size: .72rem; font-weight: 700; letter-spacing: .09em; }
     .methods-subtitle { margin-top: 6px; color: #756d64; font-size: .68rem; }
-    .methods-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
-    .payment-logo { display: flex; min-height: 40px; align-items: center; justify-content: center; gap: 6px; padding: 7px 5px; border: 1px solid rgba(36,33,30,.22); background: rgba(255,252,246,.48); color: #24211e; font-family: Arial, sans-serif; font-size: .64rem; font-weight: 700; letter-spacing: -.02em; }
-    .logo-symbol { display: inline-grid; min-width: 23px; height: 23px; place-items: center; border: 1px solid currentColor; border-radius: 4px; font-size: .58rem; }
-    .logo-bri { color: #17619b; }
-    .logo-mandiri { color: #075082; }
-    .logo-mandiri .logo-symbol { border-radius: 50%; }
-    .logo-bca { color: #1477ae; }
-    .logo-gopay { color: #168fc1; }
-    .logo-dana { color: #1684c2; }
-    .logo-jago { color: #e36b27; }
+    .methods-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+    .payment-logo { display: flex; min-height: 42px; align-items: center; justify-content: center; padding: 7px 5px; border: 1px solid rgba(36,33,30,.22); background: rgba(255,252,246,.48); }
+    .payment-logo img { display: block; width: 100%; height: 28px; object-fit: contain; }
 
     .receipt-container, .receipt-container button {
       font-family: 'DM Mono', 'Courier New', monospace;
@@ -844,7 +837,7 @@ function generatepayPage(nama, nomor, nominal, origin) {
       .tip-btn { flex: 1; padding-left: 6px; padding-right: 6px; font-size: .7rem; }
       .thank-you { font-size: 2.5rem; }
       .methods-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
-      .payment-logo { font-size: .6rem; }
+      .payment-logo img { height: 30px; }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
@@ -898,12 +891,11 @@ function generatepayPage(nama, nomor, nominal, origin) {
       <div class="methods-title">SCAN MENGGUNAKAN BANK &amp; E-WALLET</div>
       <div class="methods-subtitle">Gunakan aplikasi pembayaran yang kamu punya</div>
       <div class="methods-grid">
-        <div class="payment-logo logo-bri"><span class="logo-symbol">BRI</span><span>Bank BRI</span></div>
-        <div class="payment-logo logo-mandiri"><span class="logo-symbol">M</span><span>Mandiri</span></div>
-        <div class="payment-logo logo-bca"><span class="logo-symbol">BCA</span><span>BCA</span></div>
-        <div class="payment-logo logo-gopay"><span class="logo-symbol">G</span><span>GoPay</span></div>
-        <div class="payment-logo logo-dana"><span class="logo-symbol">D</span><span>DANA</span></div>
-        <div class="payment-logo logo-jago"><span class="logo-symbol">J</span><span>Jago</span></div>
+        <div class="payment-logo"><img src="https://companieslogo.com/img/orig/BBCA.JK_BIG-ebc1fcbe.png" alt="Logo BCA"></div>
+        <div class="payment-logo"><img src="https://companieslogo.com/img/orig/BBRI.JK_BIG-77d169b0.png" alt="Logo Bank BRI"></div>
+        <div class="payment-logo"><img src="https://companieslogo.com/img/orig/BMRI.JK-9759531a.png" alt="Logo Bank Mandiri"></div>
+        <div class="payment-logo"><img src="https://companieslogo.com/img/orig/ARTO.JK_BIG-2295dbe9.png" alt="Logo Bank Jago"></div>
+        <div class="payment-logo"><img src="https://companieslogo.com/img/orig/BDMN.JK-fab6521f.png" alt="Logo Bank Danamon"></div>
       </div>
     </section>
 
