@@ -6,6 +6,9 @@ const htmlAdmin = `
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="https://h2rsi9anqnqbkvkf.public.blob.vercel-storage.com/Group%2063-958b6HNLF5qoQkgnDpEQvEGUy16GdB.png">
   <title>Admin - Buat Link QRIS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-F2P3BLQEH7"></script>
@@ -261,27 +264,104 @@ const htmlAdmin = `
       font-size: 0.8rem;
     }
   }
+
+  /* Match the vintage invoice receipt */
+  html, body { height: auto; min-height: 100%; }
+  body {
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #d9d5cb;
+    background-image: radial-gradient(rgba(62, 52, 43, .09) .55px, transparent .65px), radial-gradient(rgba(255, 255, 255, .34) .55px, transparent .65px), linear-gradient(105deg, rgba(255,255,255,.2), transparent 42%, rgba(98,80,58,.05));
+    background-position: 0 0, 3px 3px, 0 0;
+    background-size: 5px 5px, 7px 7px, 100% 100%;
+    font-family: 'DM Mono', 'Courier New', monospace;
+  }
+  .container {
+    width: min(100%, 620px);
+    max-width: 620px;
+    margin: 24px auto;
+    padding: 34px 42px 40px;
+    border: 1px solid #b6aea1;
+    border-radius: 2px;
+    background-color: rgba(245, 240, 231, .88);
+    background-image: radial-gradient(rgba(62, 52, 43, .065) .5px, transparent .6px);
+    background-size: 5px 5px;
+    box-shadow: 0 18px 40px rgba(50, 44, 35, .2);
+  }
+  .header-ribbon { display: none; }
+  .admin-meta { display: flex; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid rgba(36,33,30,.25); color: #24211e; font-size: .7rem; font-weight: 600; letter-spacing: .12em; }
+  .admin-meta span:last-child { color: #b6222c; }
+  h1, h2 {
+    margin: 26px 0 10px;
+    color: #c82531;
+    font-family: 'Caveat', 'Brush Script MT', cursive;
+    font-size: clamp(3.6rem, 11vw, 5.8rem);
+    font-weight: 700;
+    letter-spacing: -.035em;
+    line-height: .8;
+    text-align: center;
+    text-shadow: none;
+    text-transform: none;
+  }
+  .admin-lede { max-width: 42ch; margin: 0 auto; color: #665e55; font-size: .8rem; line-height: 1.7; text-align: center; }
+  .dashed-border { margin: 24px 0; border-top: 3px solid transparent; border-image: repeating-linear-gradient(to right, #24211e 0 10px, transparent 10px 17px) 1; }
+  #generate-form { margin-top: 28px; }
+  .form-group { margin-bottom: 20px; }
+  label { color: #24211e; font-size: .76rem; font-weight: 600; letter-spacing: .08em; }
+  input {
+    padding: 13px 14px;
+    border: 1px solid #8e8579;
+    border-radius: 2px;
+    background: rgba(255, 252, 246, .55);
+    box-shadow: inset 0 1px 2px rgba(55, 45, 35, .08);
+    color: #24211e;
+    font-family: 'DM Mono', 'Courier New', monospace;
+  }
+  input:focus { border-color: #b6222c; box-shadow: 0 0 0 3px rgba(182,34,44,.12); }
+  button[type="submit"] {
+    margin-top: 8px;
+    padding: 14px;
+    border: 1px solid #8f1e27;
+    border-radius: 2px;
+    background: #b6222c;
+    box-shadow: 0 8px 16px rgba(89, 31, 25, .18);
+    font-family: 'DM Mono', 'Courier New', monospace;
+    letter-spacing: .04em;
+  }
+  button[type="submit"]:hover { background: #941c25; }
+  #result { border: 1px solid #b6aea1; border-radius: 2px; background: rgba(255,252,246,.6); color: #24211e; }
+  #result a { color: #b6222c; }
+  .output-title { color: #b6222c; letter-spacing: .08em; }
+
+  @media (max-width: 560px) {
+    body { padding: 0; display: block; }
+    .container { width: 100%; margin: 0; padding: 24px 22px 30px; border: 0; border-radius: 0; box-shadow: none; }
+    h1, h2 { font-size: 3.6rem; }
+  }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header-ribbon">Admin Panel</div>
-    <h1>Buat Link QRIS</h1>
+    <div class="admin-meta"><span>SIINMEDIA</span><span>ADMIN / QRIS</span></div>
+    <h1>Buat link QRIS</h1>
+    <p class="admin-lede">Buat invoice pembayaran untuk pelanggan yang menggunakan layanan SIINMedia.</p>
     <div class="dashed-border"></div>
     <form id="generate-form">
       <div class="form-group">
-        <label for="nama">Nama Penerima:</label>
+        <label for="nama">Nama pelanggan</label>
         <input type="text" id="nama" required>
       </div>
       <div class="form-group">
-        <label for="nomor">Nomor HP:</label>
+        <label for="nomor">Nomor HP pelanggan</label>
         <input type="text" id="nomor" required>
       </div>
       <div class="form-group">
-        <label for="nominal">Nominal (Rp):</label>
-        <input type="number" id="nominal" required>
+        <label for="nominal">Total tagihan (Rp)</label>
+        <input type="text" id="nominal" inputmode="numeric" placeholder="Contoh: 25.000" required>
       </div>
-      <button type="submit">Generate Link QRIS</button>
+      <button type="submit">Buat invoice QRIS</button>
     </form>
     <div class="dashed-border"></div>
     <p id="result"></p>
@@ -289,14 +369,22 @@ const htmlAdmin = `
 
   <script>
     const form = document.getElementById('generate-form');
+    const nominalInput = document.getElementById('nominal');
+    const rupiahFormatter = new Intl.NumberFormat('id-ID');
+
+    nominalInput.addEventListener('input', function() {
+      const digits = this.value.replace(/[^0-9]/g, '');
+      this.value = digits ? rupiahFormatter.format(Number(digits)) : '';
+    });
+
     form.onsubmit = function(e) {
       e.preventDefault();
       const nama = document.getElementById('nama').value;
       const nomor = document.getElementById('nomor').value;
-      const nominal = document.getElementById('nominal').value;
+      const nominal = nominalInput.value.replace(/[^0-9]/g, '');
       const data = btoa(JSON.stringify({ nama, nomor, nominal }));
       const link = location.origin + "/pay/" + data;
-      document.getElementById('result').innerHTML = "<div class='output-title'>LINK QRIS BERHASIL DIBUAT:</div><a href='" + link + "' target='_blank'>" + link + "</a>";
+      document.getElementById('result').innerHTML = "<div class='output-title'>INVOICE SIAP DIBAGIKAN</div><a href='" + link + "' target='_blank' rel='noopener'>" + link + "</a>";
     };
   </script>
 </body>
@@ -314,7 +402,10 @@ function generatepayPage(nama, nomor, nominal) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bayar Praktis Pake QRIS</title>
+  <title>Invoice Pembayaran · SIINMedia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="https://h2rsi9anqnqbkvkf.public.blob.vercel-storage.com/Group%2063-958b6HNLF5qoQkgnDpEQvEGUy16GdB.png">
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
@@ -371,8 +462,8 @@ function generatepayPage(nama, nomor, nominal) {
       font-family: 'DM Mono', 'Courier New', monospace;
       background-color: var(--background-color);
       color: var(--text-color);
-      padding: 0%;
-      min-height: 100%;
+      padding: 20px;
+      min-height: 100vh;
       background-image: var(--retro-pattern), radial-gradient(circle, rgba(247,245,230,1) 0%, rgba(235,231,202,1) 100%);
       display: flex;
       flex-direction: column;
@@ -381,15 +472,15 @@ function generatepayPage(nama, nomor, nominal) {
     }
 
     .receipt-container {
-      width: 100%;
-      max-width: 380px;
-      margin: auto;
+      width: 90%;
+      max-width: 500px;
+      margin: 20px auto;
       padding: 0;
       position: relative;
       background-color: #fff;
+      border: 3px solid var(--border-color);
       box-shadow: var(--box-shadow), 0 0 0 10px rgba(255,255,255,0.2);
       border-radius: var(--border-radius);
-      max-height: 100%;       /* batas tinggi container */
     }
     
 
@@ -586,11 +677,12 @@ function generatepayPage(nama, nomor, nominal) {
 
     @media (max-width: 800px) {
       body {
-        padding: 0%;
+        padding: 10px;
       }
 
       .receipt-container {
-        max-width: 100%;
+        width: 100%;
+        max-width: 500px;
       }
 
       .receipt-title {
@@ -615,45 +707,141 @@ function generatepayPage(nama, nomor, nominal) {
         font-size: 0.8rem;
       }
     }
+
+    /* Vintage thermal receipt treatment */
+    body {
+      background: #d9d5cb;
+      background-image: radial-gradient(rgba(40, 35, 29, .09) .7px, transparent .7px), radial-gradient(rgba(255, 255, 255, .28) .7px, transparent .7px);
+      background-position: 0 0, 3px 3px;
+      background-size: 6px 6px;
+      color: #24211e;
+      overflow-x: hidden;
+    }
+
+    .receipt-container {
+      width: min(100%, 560px);
+      max-width: 560px;
+      margin: 24px auto;
+      border: 1px solid #b6aea1;
+      border-radius: 2px;
+      background: #f5f0e7;
+      box-shadow: 0 18px 40px rgba(50, 44, 35, .2);
+      overflow: hidden;
+    }
+
+    .receipt-header {
+      padding: 30px 34px 24px;
+      background: #f5f0e7;
+      border-bottom: 0;
+    }
+
+    .receipt-topline { display: flex; justify-content: space-between; align-items: baseline; color: #b6222c; font-size: 1.35rem; font-weight: 700; letter-spacing: .04em; }
+    .receipt-topline span:last-child { color: #24211e; font-size: 1rem; letter-spacing: .02em; }
+    .brand-mark { margin-top: 34px; color: #c82531; font-size: clamp(2.8rem, 10vw, 5.4rem); font-style: italic; font-weight: 700; letter-spacing: -.1em; line-height: .8; text-align: center; }
+    .brand-subtitle { margin-top: 14px; color: #c82531; font-size: 1.25rem; font-weight: 700; letter-spacing: .08em; text-align: center; }
+    .receipt-tagline { margin-top: 20px; color: #24211e; font-size: .85rem; font-weight: 700; letter-spacing: .05em; text-align: center; }
+    .tear-line { display: none; }
+    .receipt-content { padding: 0 34px 24px; background: transparent; background-image: none; }
+    .receipt-date { padding: 16px 0; color: #24211e; font-size: .95rem; font-weight: 700; letter-spacing: .05em; text-align: center; }
+    .receipt-date span { margin-left: 8px; }
+    .receipt-rule { height: 3px; margin: 0 0 20px; background: repeating-linear-gradient(to right, #24211e 0 10px, transparent 10px 17px); }
+    .receipt-line { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin: 16px 0; font-size: .92rem; line-height: 1.35; }
+    .receipt-line > div { min-width: 0; }
+    .receipt-line strong, .receipt-line span { display: block; }
+    .receipt-line strong { margin-bottom: 3px; font-size: .74rem; letter-spacing: .08em; }
+    .receipt-line span { overflow-wrap: anywhere; }
+    .receipt-line b { flex: 0 0 auto; font-size: .95rem; }
+    .tips-section { margin: 24px 0 0; text-align: left; }
+    .tips-title { margin-bottom: 10px; font-size: .74rem; font-weight: 700; letter-spacing: .1em; }
+    .tips-buttons { justify-content: flex-start; gap: 8px; }
+    .tip-btn { padding: 8px 11px; border: 1px solid #6d665d; border-radius: 2px; background: transparent; color: #24211e; font-family: inherit; font-size: .78rem; }
+    .tip-btn:hover, .tip-btn.active { border-color: #b6222c; background: #b6222c; color: #fff; }
+    .receipt-total-section { padding: 20px 34px; border-top: 0; background: #f5f0e7; }
+    .receipt-total-row { align-items: baseline; }
+    .receipt-total-label { color: #24211e; font-size: 1.6rem; letter-spacing: .04em; }
+    .receipt-total-value { padding: 0; border: 0; border-radius: 0; background: transparent; color: #24211e; font-size: 1.65rem; }
+    .receipt-qr { padding: 22px 34px 28px; background: #f5f0e7; text-align: center; }
+    .qr-label { margin-bottom: 12px; color: #24211e; font-size: .72rem; font-weight: 700; letter-spacing: .16em; }
+    .qr-container { padding: 14px; border: 1px solid #24211e; border-radius: 0; box-shadow: none; }
+    .receipt-footer { padding: 24px 34px 30px; border-top: 0; background: #f5f0e7; text-align: center; }
+    .thank-you { color: #c82531; font-size: 2.2rem; font-style: italic; font-weight: 700; letter-spacing: -.05em; }
+    .footer-detail { margin-top: 10px; font-size: .73rem; }
+    .footer-brand { margin-top: 24px; font-size: .7rem; font-weight: 700; letter-spacing: .1em; }
+
+    .receipt-container, .receipt-container button {
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+    .brand-mark, .thank-you {
+      font-family: 'Caveat', 'Brush Script MT', cursive;
+      font-style: normal;
+      font-weight: 700;
+      letter-spacing: -.035em;
+    }
+    .brand-mark { font-size: clamp(3.25rem, 11vw, 5.8rem); line-height: .72; }
+    .thank-you { font-size: 2.8rem; line-height: .9; }
+    .receipt-topline, .receipt-total-label, .receipt-total-value { font-weight: 600; }
+    .receipt-date, .receipt-line, .receipt-footer { letter-spacing: .035em; }
+
+    /* Paper grain + reliable mobile scrolling */
+    html, body { height: auto; min-height: 100%; }
+    body { overflow-x: hidden; overflow-y: auto; }
+    .receipt-container {
+      background-color: #f5f0e7;
+      background-image: radial-gradient(rgba(62, 52, 43, .09) .55px, transparent .65px), radial-gradient(rgba(255, 255, 255, .34) .55px, transparent .65px), linear-gradient(105deg, rgba(255,255,255,.2), transparent 42%, rgba(98,80,58,.05));
+      background-position: 0 0, 3px 3px, 0 0;
+      background-size: 5px 5px, 7px 7px, 100% 100%;
+    }
+    .receipt-header, .receipt-content, .receipt-total-section, .receipt-qr, .receipt-footer {
+      background-color: rgba(245, 240, 231, .8);
+      background-image: radial-gradient(rgba(62, 52, 43, .065) .5px, transparent .6px);
+      background-size: 5px 5px;
+    }
+
+    @media (max-width: 560px) {
+      body { display: block; padding: 0; overflow-y: auto; }
+      .receipt-container { width: 100%; margin: 0; border: 0; box-shadow: none; }
+      .receipt-header, .receipt-content, .receipt-total-section, .receipt-qr, .receipt-footer { padding-left: 22px; padding-right: 22px; }
+      .receipt-header { padding-top: 26px; }
+      .receipt-topline { font-size: 1.05rem; }
+      .receipt-topline span:last-child { font-size: .82rem; }
+      .brand-mark { margin-top: 30px; font-size: 4rem; }
+      .receipt-line { font-size: .82rem; }
+      .receipt-total-label, .receipt-total-value { font-size: 1.35rem; }
+      .tips-buttons { flex-wrap: nowrap; }
+      .tip-btn { flex: 1; padding-left: 6px; padding-right: 6px; font-size: .7rem; }
+      .thank-you { font-size: 2.5rem; }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 <body>
   <div class="receipt-container">
     <div class="receipt-header">
-      <h1 class="receipt-title">INVOICE PEMBAYARAN <br> ${nama}</h1>
-      <div class="receipt-number">#${Math.floor(Math.random() * 900000) + 100000}</div>
-    </div>
-
-    <div class="tear-line">
+      <div class="receipt-topline"><span>INVOICE</span><span>NO. ${Math.floor(Math.random() * 900000) + 100000}</span></div>
+      <div class="brand-mark">SIINMedia</div>
+      <div class="brand-subtitle">SOFTWARE</div>
+      <div class="receipt-tagline">/ INVOICE LAYANAN SIINMEDIA /</div>
     </div>
 
     <div class="receipt-content">
-      <div class="receipt-row">
-        <div class="receipt-label">Penerima:</div>
-        <div class="receipt-value">${nama}</div>
+      <div class="receipt-date">DATE: ${new Date().toLocaleDateString('id-ID')} <span>${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span></div>
+      <div class="receipt-rule"></div>
+
+      <div class="receipt-line">
+        <div><strong>DITAGIHKAN KEPADA</strong><span>${nama}</span></div>
+        <b>Rp${parseInt(nominal).toLocaleString('id-ID')}</b>
       </div>
-      <div class="receipt-row">
-        <div class="receipt-label">Nomor HP:</div>
-        <div class="receipt-value">${censorPhone(nomor)}</div>
+      <div class="receipt-line">
+        <div><strong>NOMOR KONTAK</strong><span>${censorPhone(nomor)}</span></div>
+        <b>QRIS</b>
       </div>
-      <div class="receipt-row">
-        <div class="receipt-label">Nominal:</div>
-        <div class="receipt-value">Rp${parseInt(nominal).toLocaleString()}</div>
-      </div>
-      <div class="receipt-row">
-        <div class="receipt-label">Tanggal:</div>
-        <div class="receipt-value">${new Date().toLocaleDateString('id-ID')}</div>
-      </div>
-      <div class="receipt-row">
-      <div class="receipt-label">Jenis Pembayaran:</div>
-      <div class="receipt-value">QRIS</div>
-    </div>
+      <div class="receipt-rule"></div>
 
       <div class="tips-section">
-        <div class="tips-title">Tips Tambahan:</div>
+        <div class="tips-title">TAMBAHAN PEMBAYARAN (OPSIONAL)</div>
         <div class="tips-buttons">
-        <button class="tip-btn" onclick="setTips(2000)">+Rp2.000</button>
+          <button class="tip-btn" onclick="setTips(2000)">+Rp2.000</button>
           <button class="tip-btn" onclick="setTips(7000)">+Rp7.000</button>
           <button class="tip-btn" onclick="setTips(10000)">+Rp10.000</button>
         </div>
@@ -662,18 +850,20 @@ function generatepayPage(nama, nomor, nominal) {
 
     <div class="receipt-total-section">
       <div class="receipt-total-row">
-        <div class="receipt-total-label">Total Bayar:</div>
+        <div class="receipt-total-label">TOTAL TAGIHAN</div>
         <div class="receipt-total-value" id="total"></div>
       </div>
     </div>
 
     <div class="receipt-qr">
+      <div class="qr-label">SCAN QRIS UNTUK MEMBAYAR</div>
       <div class="qr-container" id="qrcode"></div>
     </div>
 
     <div class="receipt-footer">
-      Terima kasih telah bertransaksi
-      <br>Simpan tanda terima ini sebagai bukti pembayaran
+      <div class="thank-you">Terima kasih</div>
+      <div class="footer-detail">Terima kasih telah menggunakan layanan SIINMedia.<br>Simpan invoice ini sebagai bukti pembayaran.</div>
+      <div class="footer-brand">SIINMEDIA · LAYANAN DIGITAL</div>
     </div>
   </div>
 
@@ -682,7 +872,7 @@ function generatepayPage(nama, nomor, nominal) {
   let tips = 0;
   let activeButton = document.querySelector("button.active");
   
-  const qrisStatic = "00020101021126610014COM.GO-JEK.WWW01189360091432840999140210G2840999140303UMI51440014ID.CO.QRIS.WWW0215ID10253780771980303UMI5204581553033605802ID5909SIINMEDIA6006JEPARA61055946262070703A0163042EE1";
+  const qrisStatic = "00020101021126610014COM.GO-JEK.WWW01189360091432840999140210G2840999140303UMI51440014ID.CO.QRIS.WWW0215ID10253780771980303UMI5204573453033605802ID5918SIINMedia Software6006JEPARA61055946262070703A0163046905";
   
   function pad(number) {
     return number < 10 ? '0' + number : number.toString();
@@ -714,7 +904,7 @@ function generatepayPage(nama, nomor, nominal) {
   function setTips(value) {
     tips = value;
     const total = nominal + tips;
-    document.getElementById("total").innerText = "Rp" + total.toLocaleString();
+    document.getElementById("total").innerText = "Rp" + total.toLocaleString("id-ID");
     
     // Update active button state
     if (activeButton) {
@@ -730,17 +920,26 @@ function generatepayPage(nama, nomor, nominal) {
     }
     
     const finalQRIS = makeDynamicQRIS(qrisStatic, total);
-    QRCode.toCanvas(document.getElementById("qrcode").querySelector("canvas") || document.createElement("canvas"), finalQRIS, { 
+    const qrContainer = document.getElementById("qrcode");
+    qrContainer.innerHTML = "";
+
+    if (!window.QRCode || typeof window.QRCode.toCanvas !== "function") {
+      qrContainer.textContent = "QR tidak dapat dimuat. Refresh halaman.";
+      return;
+    }
+
+    const canvas = document.createElement("canvas");
+    qrContainer.appendChild(canvas);
+    QRCode.toCanvas(canvas, finalQRIS, {
+      errorCorrectionLevel: "M",
       margin: 2,
-      width: 200,
+      width: 220,
       scale: 8
-    }, function (err, canvas) {
+    }, function (err) {
       if (err) {
-        console.error(err);
-        return alert("Gagal membuat QR Code");
+        console.error("QR generation failed:", err);
+        qrContainer.textContent = "QR tidak dapat dibuat. Refresh halaman.";
       }
-      document.getElementById("qrcode").innerHTML = "";
-      document.getElementById("qrcode").appendChild(canvas);
     });
   }
 
@@ -752,36 +951,47 @@ function generatepayPage(nama, nomor, nominal) {
 `;
 }
 
-export default {
-  async fetch(request) {
-    const url = new URL(request.url);
-    const pathname = url.pathname;
+import http from "node:http";
 
-    if (pathname === "/admin") {
-      return new Response(htmlAdmin, {
-        headers: { "content-type": "text/html;charset=UTF-8" }
-      });
-    }
+const port = Number(process.env.PORT) || 8787;
+const host = process.env.HOST || "0.0.0.0";
 
-    if (pathname.startsWith("/pay/")) {
-      const base64 = pathname.replace("/pay/", "");
-      try {
-        const json = atob(base64);
-        const { nama, nomor, nominal } = JSON.parse(json);
-         // Validate input data
-        if (!nama || !nomor || !nominal) {
-          return new Response("Data tidak valid", { status: 400 });
-        }
-        const html = generatepayPage(nama, nomor, nominal);
-        return new Response(html, {
-          headers: { "content-type": "text/html;charset=UTF-8" }
-        });
-      } catch (err) {
-        console.error("Error processing pay request:", err);
-        return new Response("Data tidak valid atau terjadi kesalahan", { status: 400 });
-      }
-    }
-
-    return new Response("404 Not Found", { status: 404 });
-  }
+function sendHtml(response, html, statusCode = 200) {
+  response.writeHead(statusCode, { "content-type": "text/html; charset=UTF-8" });
+  response.end(html);
 }
+
+function handleRequest(request, response) {
+  const url = new URL(request.url, `http://${request.headers.host || "localhost"}`);
+  const { pathname } = url;
+
+  if (pathname === "/admin") {
+    return sendHtml(response, htmlAdmin);
+  }
+
+  if (pathname.startsWith("/pay/")) {
+    const base64 = pathname.slice("/pay/".length);
+    try {
+      const json = Buffer.from(base64, "base64").toString("utf8");
+      const { nama, nomor, nominal } = JSON.parse(json);
+
+      if (!nama || !nomor || !nominal) {
+        return sendHtml(response, "Data tidak valid", 400);
+      }
+
+      return sendHtml(response, generatepayPage(nama, nomor, nominal));
+    } catch (error) {
+      console.error("Error processing pay request:", error.message);
+      return sendHtml(response, "Data tidak valid atau terjadi kesalahan", 400);
+    }
+  }
+
+  response.writeHead(404, { "content-type": "text/plain; charset=UTF-8" });
+  response.end("404 Not Found");
+}
+
+const server = http.createServer(handleRequest);
+
+server.listen(port, host, () => {
+  console.log(`Payment server running at http://localhost:${port}`);
+});
